@@ -3,6 +3,7 @@ import { Utensils } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
+import { AnimatedFood } from "@/components/AnimatedFood";
 const cateringDetails1 = "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80";
 const cateringDetails2 = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80";
 
@@ -38,6 +39,8 @@ export default function About() {
             className="w-full h-full object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background"></div>
+          <AnimatedFood emoji="🍲" delay={0} x={90} y={140} />
+          <AnimatedFood emoji="🍗" delay={1.5} x={-110} y={160} />
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">

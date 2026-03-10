@@ -6,6 +6,7 @@ import { ChefHat, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
+import { AnimatedFood } from "@/components/AnimatedFood";
 import { useCreateInquiry } from "@/hooks/use-inquiries";
 
 const formSchema = z.object({
@@ -31,7 +32,13 @@ export default function Contact() {
 
   const onSubmit = (data: FormData) => {
     createInquiry(data, {
-      onSuccess: () => reset()
+      onSuccess: () => {
+        const phoneNumber = "916380322818";
+        const message = `Hi, I'm ${data.name}. I'm interested in ${data.eventType} for ${data.guests} guests. Event Details: ${data.message}. My contact: ${data.phone} / ${data.email}`;
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
+        reset();
+      }
     });
   };
 
@@ -48,6 +55,8 @@ export default function Contact() {
             className="w-full h-full object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background"></div>
+          <AnimatedFood emoji="🥘" delay={0} x={95} y={160} />
+          <AnimatedFood emoji="🍛" delay={1.3} x={-105} y={140} />
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">

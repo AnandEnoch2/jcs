@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
+import { AnimatedFood } from "@/components/AnimatedFood";
 import { ChefHat, Flame, Leaf, UtensilsCrossed } from "lucide-react";
 
 export default function Menu() {
@@ -96,6 +97,9 @@ export default function Menu() {
       <section className="relative min-h-[60vh] flex items-center justify-center pt-24 pb-12 overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-background"></div>
+          <AnimatedFood emoji="🍛" delay={0} x={80} y={150} />
+          <AnimatedFood emoji="🍜" delay={1} x={-100} y={120} />
+          <AnimatedFood emoji="🥘" delay={2} x={120} y={180} />
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
