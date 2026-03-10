@@ -48,8 +48,16 @@ export default function Home() {
   }, []);
 
   const onSubmit = (data: FormData) => {
+    // Send inquiry to backend
     createInquiry(data, {
-      onSuccess: () => reset()
+      onSuccess: () => {
+        reset();
+        // Send WhatsApp message with all details
+        const message = `*New Catering Inquiry*\n\n📝 Name: ${data.name}\n📧 Email: ${data.email}\n📱 Phone: ${data.phone}\n🎉 Event Type: ${data.eventType}\n👥 Number of Guests: ${data.guests}\n💬 Details: ${data.message}`;
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/916380322818?text=${encodedMessage}`;
+        window.open(whatsappUrl, '_blank');
+      }
     });
   };
 
