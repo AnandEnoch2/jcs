@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import logoImg from "@assets/WhatsApp_Image_2026-03-10_at_1,42,08_PM-photoaidcom-cropped_1773143890950.jpeg";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,9 +36,11 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-16 h-16 rounded-full border-2 border-primary flex items-center justify-center bg-card shadow-lg group-hover:box-glow transition-all duration-300">
-            <span className="font-display font-bold text-2xl gold-gradient-text tracking-tighter">JC</span>
-          </div>
+          <img 
+            src={logoImg} 
+            alt="Jesus Catering Service" 
+            className="w-16 h-16 rounded-full object-cover shadow-lg group-hover:scale-110 transition-transform duration-300"
+          />
           <span className="font-display font-bold text-lg hidden sm:block tracking-widest text-primary uppercase">
             Jesus Catering
           </span>
