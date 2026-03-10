@@ -21,8 +21,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
 import { useCreateInquiry } from "@/hooks/use-inquiries";
-import cateringDetails1 from "@assets/WhatsApp_Image_2026-03-06_at_2.20.58_PM_(3)_1773136384760.jpeg";
-import cateringDetails2 from "@assets/WhatsApp_Image_2026-03-06_at_2.20.58_PM_(2)_1773136384760.jpeg";
+const cateringDetails1 = "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80";
+const cateringDetails2 = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
