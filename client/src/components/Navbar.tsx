@@ -34,8 +34,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center bg-card shadow-lg group-hover:box-glow transition-all duration-300">
-            <span className="font-display font-bold text-xl gold-gradient-text tracking-tighter">JC</span>
+          <div className="w-16 h-16 rounded-full border-2 border-primary flex items-center justify-center bg-card shadow-lg group-hover:box-glow transition-all duration-300">
+            <span className="font-display font-bold text-2xl gold-gradient-text tracking-tighter">JC</span>
           </div>
           <span className="font-display font-bold text-lg hidden sm:block tracking-widest text-primary uppercase">
             Jesus Catering
