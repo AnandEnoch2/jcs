@@ -4,7 +4,19 @@ import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Utensils, MapPin, Phone, Mail, Clock, GlassWater, HeartHandshake, ChefHat, PartyPopper, Users, Sparkles } from "lucide-react";
+import {
+  Utensils,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  GlassWater,
+  HeartHandshake,
+  ChefHat,
+  PartyPopper,
+  Users,
+  Sparkles,
+} from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -25,19 +37,25 @@ type FormData = z.infer<typeof formSchema>;
 
 const backgroundImages = [
   "https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&q=80",
-  "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1920&q=80",
-  "https://images.unsplash.com/photo-1555939594-58d7cb561341?w=1920&q=80",
+  "https://media-cdn.tripadvisor.com/media/photo-s/12/59/d7/fc/panner-at-kalyan-rooftop.jpg",
+  "https://media-cdn.tripadvisor.com/media/photo-s/18/93/8a/58/north-indian-chinese.jpg",
+  "https://ik.imagekit.io/munchery/blog/tr:w-768/from-punjab-to-tamil-nadu-a-tour-of-ten-indian-thalis.jpeg",
 ];
 
 export default function Home() {
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
   const { mutate: createInquiry, isPending } = useCreateInquiry();
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      eventType: "Wedding Catering"
-    }
+      eventType: "Wedding Catering",
+    },
   });
 
   useEffect(() => {
@@ -56,35 +74,59 @@ export default function Home() {
         const message = `*New Catering Inquiry*\n\n📝 Name: ${data.name}\n📧 Email: ${data.email}\n📱 Phone: ${data.phone}\n🎉 Event Type: ${data.eventType}\n👥 Number of Guests: ${data.guests}\n💬 Details: ${data.message}`;
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/916380322818?text=${encodedMessage}`;
-        window.open(whatsappUrl, '_blank');
-      }
+        window.open(whatsappUrl, "_blank");
+      },
     });
   };
 
   const services = [
-    { title: "Wedding Catering", icon: HeartHandshake, desc: "Elegant feasts to make your special day unforgettable." },
-    { title: "Corporate Catering", icon: Users, desc: "Professional dining solutions for meetings and corporate events." },
-    { title: "Social Events", icon: GlassWater, desc: "Perfectly crafted menus for your private gatherings and parties." },
-    { title: "Family Style", icon: Utensils, desc: "Comforting, shareable dishes that bring everyone together." },
-    { title: "Outdoor Catering", icon: Sparkles, desc: "Full-service catering equipped for beautiful outdoor venues." },
-    { title: "Birthday Parties", icon: PartyPopper, desc: "Fun, vibrant menus tailored to delight guests of all ages." },
+    {
+      title: "Wedding Catering",
+      icon: HeartHandshake,
+      desc: "Elegant feasts to make your special day unforgettable.",
+    },
+    {
+      title: "Corporate Catering",
+      icon: Users,
+      desc: "Professional dining solutions for meetings and corporate events.",
+    },
+    {
+      title: "Social Events",
+      icon: GlassWater,
+      desc: "Perfectly crafted menus for your private gatherings and parties.",
+    },
+    {
+      title: "Family Style",
+      icon: Utensils,
+      desc: "Comforting, shareable dishes that bring everyone together.",
+    },
+    {
+      title: "Outdoor Catering",
+      icon: Sparkles,
+      desc: "Full-service catering equipped for beautiful outdoor venues.",
+    },
+    {
+      title: "Birthday Parties",
+      icon: PartyPopper,
+      desc: "Fun, vibrant menus tailored to delight guests of all ages.",
+    },
   ];
 
   const cuisines = [
-    { 
-      title: "North Indian", 
+    {
+      title: "North Indian",
       desc: "Rich, aromatic curries, tandoori specialties, and freshly baked breads.",
-      img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80" 
+      img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80",
     },
-    { 
-      title: "South Indian", 
+    {
+      title: "South Indian",
       desc: "Authentic traditional flavors, from crisp dosas to spicy Chettinad dishes.",
-      img: "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?w=800&q=80" 
+      img: "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?w=800&q=80",
     },
-    { 
-      title: "Chinese", 
+    {
+      title: "Chinese",
       desc: "Exquisite Indo-Chinese fusion, featuring perfect wok-tossed delicacies.",
-      img: "https://images.unsplash.com/photo-1552611052-33e04de081de?w=800&q=80" 
+      img: "https://images.unsplash.com/photo-1552611052-33e04de081de?w=800&q=80",
     },
   ];
 
@@ -97,10 +139,10 @@ export default function Home() {
         {/* Background Image Carousel */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
-            <motion.img 
+            <motion.img
               key={currentBgIndex}
               src={backgroundImages[currentBgIndex]}
-              alt="Catering Background" 
+              alt="Catering Background"
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.3 }}
               exit={{ opacity: 0 }}
@@ -136,24 +178,28 @@ export default function Home() {
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-6 leading-tight text-glow">
               Jesus Catering <br />
-              <span className="gold-gradient-text italic text-4xl md:text-6xl lg:text-7xl">Service</span>
+              <span className="gold-gradient-text italic text-4xl md:text-6xl lg:text-7xl">
+                Service
+              </span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 italic font-light">
               ".... Whatever he does shall Prosper" <br />
-              <span className="text-primary/80 not-italic text-sm mt-2 block">— Psalm 1:3</span>
+              <span className="text-primary/80 not-italic text-sm mt-2 block">
+                — Psalm 1:3
+              </span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="/menu" 
+              <a
+                href="/menu"
                 className="px-8 py-4 bg-primary text-primary-foreground font-bold uppercase tracking-widest text-sm rounded-none hover:bg-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] inline-block"
                 data-testid="button-discover-menu"
               >
                 Discover Menus
               </a>
-              <a 
-                href="#contact" 
+              <a
+                href="#contact"
                 className="px-8 py-4 border border-primary text-primary font-bold uppercase tracking-widest text-sm rounded-none hover:bg-primary/10 transition-all duration-300 inline-block"
                 data-testid="button-request-quote"
               >
@@ -164,8 +210,8 @@ export default function Home() {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }} 
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 text-primary"
         >
@@ -179,23 +225,31 @@ export default function Home() {
       <section id="about" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading title="Our Story" subtitle="Tradition & Excellence" />
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="space-y-6 text-muted-foreground leading-relaxed text-lg"
             >
               <p>
-                Led by Proprietor <strong className="text-foreground gold-gradient-text">T. Navaneetha Ramakrishnan</strong>, Jesus Catering Service has established itself as a beacon of culinary excellence in Palayamkottai and beyond.
+                Led by Proprietor{" "}
+                <strong className="text-foreground gold-gradient-text">
+                  T. Navaneetha Ramakrishnan
+                </strong>
+                , Jesus Catering Service has established itself as a beacon of
+                culinary excellence in Palayamkottai and beyond.
               </p>
               <p>
-                We believe that every event is a sacred gathering, and the food served should reflect the joy and blessing of the occasion. From intimate family gatherings to grand weddings, our team is dedicated to providing an impeccable dining experience.
+                We believe that every event is a sacred gathering, and the food
+                served should reflect the joy and blessing of the occasion. From
+                intimate family gatherings to grand weddings, our team is
+                dedicated to providing an impeccable dining experience.
               </p>
-              
+
               {/* Online Platforms Callout */}
-              <motion.div 
+              <motion.div
                 className="mt-8 p-8 bg-card border border-primary/30 rounded-xl relative overflow-hidden group"
                 whileHover={{ borderColor: "rgb(212, 175, 55)" }}
                 transition={{ duration: 0.3 }}
@@ -229,7 +283,9 @@ export default function Home() {
                     data-testid="link-swiggy"
                   >
                     <div>
-                      <p className="text-orange-500 font-bold text-lg">Swiggy</p>
+                      <p className="text-orange-500 font-bold text-lg">
+                        Swiggy
+                      </p>
                       <p className="text-xs text-gray-400">Rehoboth Kitchen</p>
                     </div>
                     <span className="text-primary font-bold text-xl">→</span>
@@ -238,46 +294,46 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="grid grid-cols-2 gap-4 relative"
             >
               <div className="absolute -inset-4 bg-primary/5 blur-3xl -z-10 rounded-full animate-pulse"></div>
-              
-              <motion.div 
+
+              <motion.div
                 className="space-y-4 translate-y-8"
                 whileHover={{ y: 16 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <motion.div 
+                <motion.div
                   className="rounded-2xl overflow-hidden border border-border shadow-2xl"
                   whileHover={{ rotateY: 5 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <motion.img 
-                    src={cateringDetails1} 
-                    alt="Catering Details 1" 
+                  <motion.img
+                    src={cateringDetails1}
+                    alt="Catering Details 1"
                     className="w-full h-auto hover:scale-105 transition-transform duration-500"
                     whileHover={{ scale: 1.08 }}
                     transition={{ duration: 0.5 }}
                   />
                 </motion.div>
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="space-y-4"
                 whileHover={{ y: -16 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <motion.div 
+                <motion.div
                   className="rounded-2xl overflow-hidden border border-border shadow-2xl"
                   whileHover={{ rotateY: -5 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <motion.img 
-                    src={cateringDetails2} 
-                    alt="Catering Details 2" 
+                  <motion.img
+                    src={cateringDetails2}
+                    alt="Catering Details 2"
                     className="w-full h-auto hover:scale-105 transition-transform duration-500"
                     whileHover={{ scale: 1.08 }}
                     transition={{ duration: 0.5 }}
@@ -290,10 +346,16 @@ export default function Home() {
       </section>
 
       {/* CUISINES SECTION */}
-      <section id="cuisines" className="py-24 bg-card relative border-y border-border/50">
+      <section
+        id="cuisines"
+        className="py-24 bg-card relative border-y border-border/50"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="Exquisite Cuisines" subtitle="Our Specialties" />
-          
+          <SectionHeading
+            title="Exquisite Cuisines"
+            subtitle="Our Specialties"
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {cuisines.map((cuisine, idx) => (
               <motion.div
@@ -304,16 +366,18 @@ export default function Home() {
                 transition={{ delay: idx * 0.2 }}
                 className="group relative h-96 overflow-hidden rounded-xl border border-border"
               >
-                <img 
-                  src={cuisine.img} 
-                  alt={cuisine.title} 
+                <img
+                  src={cuisine.img}
+                  alt={cuisine.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                
+
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
                   <div className="w-12 h-1 bg-primary mb-4 transform origin-left transition-transform duration-300 group-hover:scale-x-150"></div>
-                  <h3 className="text-3xl font-display font-bold text-white mb-3">{cuisine.title}</h3>
+                  <h3 className="text-3xl font-display font-bold text-white mb-3">
+                    {cuisine.title}
+                  </h3>
                   <p className="text-gray-300 transform translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                     {cuisine.desc}
                   </p>
@@ -327,8 +391,11 @@ export default function Home() {
       {/* SERVICES SECTION */}
       <section id="services" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="Catering Services" subtitle="Tailored to You" />
-          
+          <SectionHeading
+            title="Catering Services"
+            subtitle="Tailored to You"
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, idx) => (
               <motion.div
@@ -340,9 +407,14 @@ export default function Home() {
                 className="p-8 border border-border/50 bg-background hover:bg-card hover:border-primary/50 transition-all duration-300 group flex flex-col items-center text-center"
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
-                  <service.icon className="text-primary group-hover:text-primary-foreground transition-colors duration-300" size={32} />
+                  <service.icon
+                    className="text-primary group-hover:text-primary-foreground transition-colors duration-300"
+                    size={32}
+                  />
                 </div>
-                <h3 className="text-xl font-display font-bold text-foreground mb-3">{service.title}</h3>
+                <h3 className="text-xl font-display font-bold text-foreground mb-3">
+                  {service.title}
+                </h3>
                 <p className="text-muted-foreground">{service.desc}</p>
               </motion.div>
             ))}
@@ -351,30 +423,39 @@ export default function Home() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section id="contact" className="py-24 relative bg-card/50 border-t border-border/50">
+      <section
+        id="contact"
+        className="py-24 relative bg-card/50 border-t border-border/50"
+      >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-50"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading title="Get In Touch" subtitle="Plan Your Event" />
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8">
             {/* Contact Info */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="lg:col-span-2 space-y-8"
             >
               <div className="space-y-6">
-                <h3 className="text-2xl font-display font-bold text-white mb-6">Contact Information</h3>
-                
+                <h3 className="text-2xl font-display font-bold text-white mb-6">
+                  Contact Information
+                </h3>
+
                 <div className="flex items-start gap-4">
                   <div className="mt-1 p-3 bg-primary/10 rounded-full border border-primary/20">
                     <ChefHat className="text-primary" size={20} />
                   </div>
                   <div>
-                    <p className="text-sm text-primary uppercase tracking-wider mb-1">Proprietor</p>
-                    <p className="text-lg font-medium text-white">T. Navaneetha Ramakrishnan</p>
+                    <p className="text-sm text-primary uppercase tracking-wider mb-1">
+                      Proprietor
+                    </p>
+                    <p className="text-lg font-medium text-white">
+                      T. Navaneetha Ramakrishnan
+                    </p>
                   </div>
                 </div>
 
@@ -383,7 +464,9 @@ export default function Home() {
                     <Phone className="text-primary" size={20} />
                   </div>
                   <div>
-                    <p className="text-sm text-primary uppercase tracking-wider mb-1">Phones</p>
+                    <p className="text-sm text-primary uppercase tracking-wider mb-1">
+                      Phones
+                    </p>
                     <p className="text-base text-gray-300">+91 89032 02413</p>
                     <p className="text-base text-gray-300">+91 63803 22818</p>
                     <p className="text-base text-gray-300">+91 97907 28715</p>
@@ -395,8 +478,13 @@ export default function Home() {
                     <Mail className="text-primary" size={20} />
                   </div>
                   <div>
-                    <p className="text-sm text-primary uppercase tracking-wider mb-1">Email</p>
-                    <a href="mailto:jesuscateringservicenellai@gmail.com" className="text-base text-gray-300 hover:text-primary transition-colors break-all">
+                    <p className="text-sm text-primary uppercase tracking-wider mb-1">
+                      Email
+                    </p>
+                    <a
+                      href="mailto:jesuscateringservicenellai@gmail.com"
+                      className="text-base text-gray-300 hover:text-primary transition-colors break-all"
+                    >
                       jesuscateringservicenellai@gmail.com
                     </a>
                   </div>
@@ -407,9 +495,12 @@ export default function Home() {
                     <MapPin className="text-primary" size={20} />
                   </div>
                   <div>
-                    <p className="text-sm text-primary uppercase tracking-wider mb-1">Address</p>
+                    <p className="text-sm text-primary uppercase tracking-wider mb-1">
+                      Address
+                    </p>
                     <p className="text-base text-gray-300">
-                      No.75, Tiruchendur Road,<br />
+                      No.75, Tiruchendur Road,
+                      <br />
                       Palayamkottai - 627 002
                     </p>
                   </div>
@@ -418,90 +509,130 @@ export default function Home() {
             </motion.div>
 
             {/* Inquiry Form */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="lg:col-span-3 bg-background p-8 lg:p-10 rounded-2xl border border-border shadow-2xl"
             >
-              <h3 className="text-2xl font-display font-bold text-white mb-6">Send an Inquiry</h3>
-              
+              <h3 className="text-2xl font-display font-bold text-white mb-6">
+                Send an Inquiry
+              </h3>
+
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">Your Name</label>
-                    <input 
+                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                      Your Name
+                    </label>
+                    <input
                       {...register("name")}
-                      className={`w-full bg-input border ${errors.name ? 'border-destructive' : 'border-border'} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
+                      className={`w-full bg-input border ${errors.name ? "border-destructive" : "border-border"} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
                       placeholder="John Doe"
                     />
-                    {errors.name && <p className="text-destructive text-sm mt-1">{errors.name.message}</p>}
+                    {errors.name && (
+                      <p className="text-destructive text-sm mt-1">
+                        {errors.name.message}
+                      </p>
+                    )}
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">Phone Number</label>
-                    <input 
+                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                      Phone Number
+                    </label>
+                    <input
                       {...register("phone")}
-                      className={`w-full bg-input border ${errors.phone ? 'border-destructive' : 'border-border'} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
+                      className={`w-full bg-input border ${errors.phone ? "border-destructive" : "border-border"} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
                       placeholder="+91 XXXXX XXXXX"
                     />
-                    {errors.phone && <p className="text-destructive text-sm mt-1">{errors.phone.message}</p>}
+                    {errors.phone && (
+                      <p className="text-destructive text-sm mt-1">
+                        {errors.phone.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">Email Address</label>
-                    <input 
+                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                      Email Address
+                    </label>
+                    <input
                       {...register("email")}
                       type="email"
-                      className={`w-full bg-input border ${errors.email ? 'border-destructive' : 'border-border'} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
+                      className={`w-full bg-input border ${errors.email ? "border-destructive" : "border-border"} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
                       placeholder="john@example.com"
                     />
-                    {errors.email && <p className="text-destructive text-sm mt-1">{errors.email.message}</p>}
+                    {errors.email && (
+                      <p className="text-destructive text-sm mt-1">
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">Number of Guests</label>
-                    <input 
+                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                      Number of Guests
+                    </label>
+                    <input
                       {...register("guests")}
                       type="number"
                       min="1"
-                      className={`w-full bg-input border ${errors.guests ? 'border-destructive' : 'border-border'} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
+                      className={`w-full bg-input border ${errors.guests ? "border-destructive" : "border-border"} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
                       placeholder="100"
                     />
-                    {errors.guests && <p className="text-destructive text-sm mt-1">{errors.guests.message}</p>}
+                    {errors.guests && (
+                      <p className="text-destructive text-sm mt-1">
+                        {errors.guests.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">Event Type</label>
-                  <select 
+                  <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                    Event Type
+                  </label>
+                  <select
                     {...register("eventType")}
-                    className={`w-full bg-input border ${errors.eventType ? 'border-destructive' : 'border-border'} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none`}
+                    className={`w-full bg-input border ${errors.eventType ? "border-destructive" : "border-border"} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none`}
                   >
                     <option value="Wedding Catering">Wedding Catering</option>
-                    <option value="Corporate Catering">Corporate Catering</option>
+                    <option value="Corporate Catering">
+                      Corporate Catering
+                    </option>
                     <option value="Social Event">Social Event</option>
                     <option value="Birthday Party">Birthday Party</option>
                     <option value="Other">Other</option>
                   </select>
-                  {errors.eventType && <p className="text-destructive text-sm mt-1">{errors.eventType.message}</p>}
+                  {errors.eventType && (
+                    <p className="text-destructive text-sm mt-1">
+                      {errors.eventType.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">Event Details / Message</label>
-                  <textarea 
+                  <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                    Event Details / Message
+                  </label>
+                  <textarea
                     {...register("message")}
                     rows={4}
-                    className={`w-full bg-input border ${errors.message ? 'border-destructive' : 'border-border'} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none`}
+                    className={`w-full bg-input border ${errors.message ? "border-destructive" : "border-border"} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none`}
                     placeholder="Tell us about your date, venue, and specific requirements..."
                   ></textarea>
-                  {errors.message && <p className="text-destructive text-sm mt-1">{errors.message.message}</p>}
+                  {errors.message && (
+                    <p className="text-destructive text-sm mt-1">
+                      {errors.message.message}
+                    </p>
+                  )}
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={isPending}
                   className="w-full py-4 bg-primary text-primary-foreground font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2 mt-4"
                 >
@@ -509,7 +640,9 @@ export default function Home() {
                     <span className="flex items-center gap-2">
                       <Clock className="animate-spin" size={18} /> Processing...
                     </span>
-                  ) : "Submit Inquiry"}
+                  ) : (
+                    "Submit Inquiry"
+                  )}
                 </button>
               </form>
             </motion.div>
