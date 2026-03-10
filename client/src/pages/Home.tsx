@@ -138,14 +138,16 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="#services" 
+                href="/menu" 
                 className="px-8 py-4 bg-primary text-primary-foreground font-bold uppercase tracking-widest text-sm rounded-none hover:bg-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] inline-block"
+                data-testid="button-discover-menu"
               >
                 Discover Menus
               </a>
               <a 
                 href="#contact" 
                 className="px-8 py-4 border border-primary text-primary font-bold uppercase tracking-widest text-sm rounded-none hover:bg-primary/10 transition-all duration-300 inline-block"
+                data-testid="button-request-quote"
               >
                 Request Quote
               </a>
@@ -184,18 +186,48 @@ export default function Home() {
                 We believe that every event is a sacred gathering, and the food served should reflect the joy and blessing of the occasion. From intimate family gatherings to grand weddings, our team is dedicated to providing an impeccable dining experience.
               </p>
               
-              {/* Zomato Callout */}
-              <div className="mt-8 p-6 bg-card border border-primary/30 rounded-xl relative overflow-hidden group">
+              {/* Online Platforms Callout */}
+              <motion.div 
+                className="mt-8 p-8 bg-card border border-primary/30 rounded-xl relative overflow-hidden group"
+                whileHover={{ borderColor: "rgb(212, 175, 55)" }}
+                transition={{ duration: 0.3 }}
+              >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
-                <h4 className="text-xl font-display font-bold text-white mb-2 flex items-center gap-2">
+                <h4 className="text-xl font-display font-bold text-white mb-4 flex items-center gap-2">
                   <Utensils className="text-primary" size={20} />
-                  Available Online
+                  Order Online Now
                 </h4>
-                <p>
-                  Craving our food now? Find us on <span className="text-[#E23744] font-bold">Zomato</span> under the name <br />
-                  <span className="text-2xl font-display text-primary mt-2 block">"Rehoboth Kitchen"</span>
-                </p>
-              </div>
+                <div className="space-y-4">
+                  <motion.a
+                    href="https://www.zomato.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 bg-background/50 hover:bg-background border border-primary/20 rounded-lg transition-all duration-300"
+                    whileHover={{ x: 8 }}
+                    data-testid="link-zomato"
+                  >
+                    <div>
+                      <p className="text-[#E23744] font-bold text-lg">Zomato</p>
+                      <p className="text-xs text-gray-400">Rehoboth Kitchen</p>
+                    </div>
+                    <span className="text-primary font-bold text-xl">→</span>
+                  </motion.a>
+                  <motion.a
+                    href="https://www.swiggy.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 bg-background/50 hover:bg-background border border-primary/20 rounded-lg transition-all duration-300"
+                    whileHover={{ x: 8 }}
+                    data-testid="link-swiggy"
+                  >
+                    <div>
+                      <p className="text-orange-500 font-bold text-lg">Swiggy</p>
+                      <p className="text-xs text-gray-400">Rehoboth Kitchen</p>
+                    </div>
+                    <span className="text-primary font-bold text-xl">→</span>
+                  </motion.a>
+                </div>
+              </motion.div>
             </motion.div>
 
             <motion.div 
@@ -204,18 +236,46 @@ export default function Home() {
               viewport={{ once: true }}
               className="grid grid-cols-2 gap-4 relative"
             >
-              <div className="absolute -inset-4 bg-primary/5 blur-3xl -z-10 rounded-full"></div>
+              <div className="absolute -inset-4 bg-primary/5 blur-3xl -z-10 rounded-full animate-pulse"></div>
               
-              <div className="space-y-4 translate-y-8">
-                <div className="rounded-2xl overflow-hidden border border-border shadow-2xl">
-                  <img src={cateringDetails1} alt="Catering Details 1" className="w-full h-auto hover:scale-105 transition-transform duration-500" />
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="rounded-2xl overflow-hidden border border-border shadow-2xl">
-                  <img src={cateringDetails2} alt="Catering Details 2" className="w-full h-auto hover:scale-105 transition-transform duration-500" />
-                </div>
-              </div>
+              <motion.div 
+                className="space-y-4 translate-y-8"
+                whileHover={{ y: 16 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <motion.div 
+                  className="rounded-2xl overflow-hidden border border-border shadow-2xl"
+                  whileHover={{ rotateY: 5 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <motion.img 
+                    src={cateringDetails1} 
+                    alt="Catering Details 1" 
+                    className="w-full h-auto hover:scale-105 transition-transform duration-500"
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </motion.div>
+              </motion.div>
+              <motion.div 
+                className="space-y-4"
+                whileHover={{ y: -16 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <motion.div 
+                  className="rounded-2xl overflow-hidden border border-border shadow-2xl"
+                  whileHover={{ rotateY: -5 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <motion.img 
+                    src={cateringDetails2} 
+                    alt="Catering Details 2" 
+                    className="w-full h-auto hover:scale-105 transition-transform duration-500"
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </motion.div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
