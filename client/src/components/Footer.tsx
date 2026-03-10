@@ -1,3 +1,5 @@
+import { ChefHat } from "lucide-react";
+
 export function Footer() {
   const handleWhatsAppClick = () => {
     window.open("https://wa.me/916380322818", "_blank");
@@ -8,12 +10,15 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full border border-primary flex items-center justify-center bg-card hover:bg-primary/20 transition-colors">
-              <span className="font-display font-bold text-primary text-lg">JC</span>
+            <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center bg-card hover:bg-primary/20 transition-colors">
+              <ChefHat size={24} className="text-primary" />
             </div>
-            <span className="font-display font-bold text-xl tracking-widest text-foreground uppercase">
-              Jesus Catering
-            </span>
+            <div>
+              <span className="font-display font-bold text-xl tracking-widest text-foreground uppercase block">
+                Jesus Catering
+              </span>
+              <span className="text-xs text-primary font-semibold">Premium Catering Service</span>
+            </div>
           </div>
 
           <div className="flex items-center gap-4">
