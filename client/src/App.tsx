@@ -11,6 +11,7 @@ import About from "@/pages/About";
 import Services from "@/pages/Services";
 import Contact from "@/pages/Contact";
 import Menu from "@/pages/Menu";
+import Gallery from "@/pages/Gallery";
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/menu" component={Menu} />
       <Route path="/about" component={About} />
       <Route path="/services" component={Services} />
+      <Route path="/gallery" component={Gallery} />
       <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
