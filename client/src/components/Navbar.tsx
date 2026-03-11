@@ -1,21 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useAdmin } from "@/context/AdminContext";
 import logoImg from "@assets/WhatsApp_Image_2026-03-10_at_1,42,08_PM-photoaidcom-cropped_1773143890950.jpeg";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [location] = useLocation();
+  const { openLoginModal, isAdmin } = useAdmin();
+  const clickCountRef = useRef(0);
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    clickCountRef.current += 1;
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    clickTimerRef.current = setTimeout(() => {
+      clickCountRef.current = 0;
+    }, 1000);
+    if (clickCountRef.current >= 3) {
+      clickCountRef.current = 0;
+      if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+      openLoginModal();
+    } else if (clickCountRef.current === 1) {
+      window.location.href = "/";
+    }
+  };
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -35,17 +53,22 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <img 
-            src={logoImg} 
-            alt="Jesus Catering Service" 
+        {/* Logo - triple click opens admin */}
+        <button onClick={handleLogoClick} className="flex items-center gap-3 group cursor-pointer bg-transparent border-0 p-0">
+          <img
+            src={logoImg}
+            alt="Jesus Catering Service"
             className="w-16 h-16 rounded-full object-cover shadow-lg group-hover:scale-110 transition-transform duration-300"
           />
-          <span className="font-display font-bold text-lg hidden sm:block tracking-widest text-primary uppercase">
-            Jesus Catering
-          </span>
-        </Link>
+          <div className="hidden sm:block text-left">
+            <span className="font-display font-bold text-lg tracking-widest text-primary uppercase block">
+              Jesus Catering
+            </span>
+            {isAdmin && (
+              <span className="text-xs text-green-400 font-semibold">● Admin Mode</span>
+            )}
+          </div>
+        </button>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
@@ -54,8 +77,8 @@ export function Navbar() {
               key={link.name}
               href={link.href}
               className={`text-sm uppercase tracking-widest font-medium transition-colors duration-200 relative group ${
-                isActive(link.href) 
-                  ? "text-primary" 
+                isActive(link.href)
+                  ? "text-primary"
                   : "text-muted-foreground hover:text-primary"
               }`}
             >
@@ -65,6 +88,11 @@ export function Navbar() {
               }`}></span>
             </Link>
           ))}
+          {isAdmin && (
+            <Link href="/admin" className="px-4 py-1.5 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-green-500/30 transition-all">
+              Dashboard
+            </Link>
+          )}
           <Link
             href="/contact"
             className="px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-full transition-all duration-300 font-medium uppercase tracking-wider text-sm shadow-[0_0_15px_rgba(212,175,55,0.15)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]"
@@ -106,6 +134,11 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link href="/admin" onClick={() => setIsMobileMenuOpen(false)} className="text-center py-2 text-green-400 font-bold">
+                  Admin Dashboard
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
