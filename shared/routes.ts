@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertInquirySchema, inquiries } from './schema';
+import { insertInquirySchema, type Inquiry } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -18,7 +18,7 @@ export const api = {
       path: '/api/inquiries' as const,
       input: insertInquirySchema,
       responses: {
-        201: z.custom<typeof inquiries.$inferSelect>(),
+        201: z.custom<Inquiry>(),
         400: errorSchemas.validation,
       },
     },
@@ -38,5 +38,5 @@ export function buildUrl(path: string, params?: Record<string, string | number>)
 }
 
 export type InquiryInput = z.infer<typeof api.inquiries.create.input>;
-export type InquiryResponse = z.infer<typeof api.inquiries.create.responses[201]>;
+export type InquiryResponse = Inquiry;
 export type ValidationError = z.infer<typeof errorSchemas.validation>;
