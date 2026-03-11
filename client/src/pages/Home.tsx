@@ -16,6 +16,9 @@ import {
   PartyPopper,
   Users,
   Sparkles,
+  CheckCircle,
+  Leaf,
+  Flame,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -420,6 +423,71 @@ export default function Home() {
                   {service.title}
                 </h3>
                 <p className="text-muted-foreground">{service.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHY CHOOSE US SECTION */}
+      <section className="py-24 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading title="Why Choose Us" subtitle="Excellence in Every Meal" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { 
+                icon: Leaf, 
+                title: "Fresh and High-Quality Ingredients", 
+                desc: "We source only the finest, freshest ingredients for our dishes." 
+              },
+              { 
+                icon: ChefHat, 
+                title: "Experienced Cooking Team", 
+                desc: "Our skilled chefs bring years of culinary expertise." 
+              },
+              { 
+                icon: Flame, 
+                title: "Delicious Diverse Cuisines", 
+                desc: "South Indian, North Indian & Chinese Foods at their best." 
+              },
+              { 
+                icon: Users, 
+                title: "Affordable Packages", 
+                desc: "Premium quality without breaking your budget." 
+              },
+              { 
+                icon: Sparkles, 
+                title: "Hygienic Food Preparation", 
+                desc: "We maintain the highest standards of food safety and cleanliness." 
+              },
+              { 
+                icon: Clock, 
+                title: "Reliable and On-Time Service", 
+                desc: "Professional delivery that respects your schedule." 
+              },
+            ].map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="flex gap-4 p-6 bg-card border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300 group"
+              >
+                <div className="flex-shrink-0">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                    <item.icon className="h-6 w-6 text-primary group-hover:text-white transition-colors" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-foreground mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {item.desc}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
