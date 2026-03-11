@@ -1,4 +1,4 @@
-import { ChefHat } from "lucide-react";
+import cateringLogo from "@assets/WhatsApp_Image_2026-03-10_at_1,42,08_PM-photoaidcom-cropped_1773214984482.jpeg";
 
 export function Footer() {
   const handleWhatsAppClick = () => {
@@ -10,9 +10,11 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center bg-card hover:bg-primary/20 transition-colors">
-              <ChefHat size={24} className="text-primary" />
-            </div>
+            <img 
+              src={cateringLogo} 
+              alt="Jesus Catering Service Logo" 
+              className="w-14 h-14 object-contain hover:scale-110 transition-transform duration-300"
+            />
             <div>
               <span className="font-display font-bold text-xl tracking-widest text-foreground uppercase block">
                 Jesus Catering
