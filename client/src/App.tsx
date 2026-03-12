@@ -1,12 +1,12 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
+import { useEffect } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { SmokeAnimation } from "@/components/SmokeAnimation";
-import { AdminProvider } from "@/context/AdminContext";
-import { AdminLoginModal } from "@/components/AdminLoginModal";
+import { AdminProvider, useAdmin } from "@/context/AdminContext";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
@@ -15,6 +15,17 @@ import Contact from "@/pages/Contact";
 import Menu from "@/pages/Menu";
 import Gallery from "@/pages/Gallery";
 import Admin from "@/pages/Admin";
+
+function VisitTracker() {
+  const [location] = useLocation();
+  const { trackVisit } = useAdmin();
+
+  useEffect(() => {
+    trackVisit(location);
+  }, [location]);
+
+  return null;
+}
 
 function Router() {
   return (
@@ -38,9 +49,9 @@ function App() {
         <AdminProvider>
           <Toaster />
           <SmokeAnimation />
+          <VisitTracker />
           <Router />
           <WhatsAppButton />
-          <AdminLoginModal />
         </AdminProvider>
       </TooltipProvider>
     </QueryClientProvider>

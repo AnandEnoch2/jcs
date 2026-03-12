@@ -33,6 +33,15 @@ export interface SiteContent {
   };
 }
 
+export interface Visit {
+  timestamp: number;
+  page: string;
+  date: string;
+}
+
+const VISITS_KEY = "jcs_visits";
+const MAX_VISITS = 10000;
+
 const defaultContent: SiteContent = {
   hero: {
     tagline: "Serving with Love, Blessed by Grace.",
@@ -77,20 +86,18 @@ const defaultContent: SiteContent = {
 
 interface AdminContextType {
   isAdmin: boolean;
-  showLoginModal: boolean;
   content: SiteContent;
   login: (username: string, password: string) => boolean;
   logout: () => void;
-  openLoginModal: () => void;
-  closeLoginModal: () => void;
   updateContent: (newContent: SiteContent) => void;
+  trackVisit: (page: string) => void;
+  getVisits: () => Visit[];
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export function AdminProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [content, setContent] = useState<SiteContent>(() => {
     try {
       const saved = localStorage.getItem("jcs_site_content");
@@ -106,10 +113,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (username: string, password: string) => {
-    if (username === "jcs@nellai" && password === "Jcs@2026") {
+    if (username === "jcs@nellai" && password === "jcs@2026") {
       setIsAdmin(true);
       sessionStorage.setItem("jcs_admin", "true");
-      setShowLoginModal(false);
       return true;
     }
     return false;
@@ -125,12 +131,34 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("jcs_site_content", JSON.stringify(newContent));
   };
 
+  const trackVisit = (page: string) => {
+    try {
+      const now = new Date();
+      const visit: Visit = {
+        timestamp: now.getTime(),
+        page,
+        date: now.toISOString().split("T")[0],
+      };
+      const raw = localStorage.getItem(VISITS_KEY);
+      const visits: Visit[] = raw ? JSON.parse(raw) : [];
+      visits.push(visit);
+      if (visits.length > MAX_VISITS) visits.splice(0, visits.length - MAX_VISITS);
+      localStorage.setItem(VISITS_KEY, JSON.stringify(visits));
+    } catch {}
+  };
+
+  const getVisits = (): Visit[] => {
+    try {
+      const raw = localStorage.getItem(VISITS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  };
+
   return (
     <AdminContext.Provider value={{
-      isAdmin, showLoginModal, content, login, logout,
-      openLoginModal: () => setShowLoginModal(true),
-      closeLoginModal: () => setShowLoginModal(false),
-      updateContent,
+      isAdmin, content, login, logout, updateContent, trackVisit, getVisits,
     }}>
       {children}
     </AdminContext.Provider>

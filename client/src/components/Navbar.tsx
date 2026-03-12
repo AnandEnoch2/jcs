@@ -8,8 +8,8 @@ import logoImg from "@assets/WhatsApp_Image_2026-03-10_at_1,42,08_PM-photoaidcom
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [location] = useLocation();
-  const { openLoginModal, isAdmin } = useAdmin();
+  const [location, navigate] = useLocation();
+  const { isAdmin } = useAdmin();
   const clickCountRef = useRef(0);
   const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -29,7 +29,7 @@ export function Navbar() {
     if (clickCountRef.current >= 3) {
       clickCountRef.current = 0;
       if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
-      openLoginModal();
+      navigate("/admin");
     } else if (clickCountRef.current === 1) {
       window.location.href = "/";
     }
