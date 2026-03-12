@@ -209,13 +209,13 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => document.getElementById("cuisines")?.scrollIntoView({ behavior: "smooth" })}
+              <a
+                href="/menu"
                 className="px-8 py-4 bg-primary text-primary-foreground font-bold uppercase tracking-widest text-sm rounded-none hover:bg-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] inline-block"
                 data-testid="button-discover-menu"
               >
                 Discover Menus
-              </button>
+              </a>
               <a
                 href="#contact"
                 className="px-8 py-4 border border-primary text-primary font-bold uppercase tracking-widest text-sm rounded-none hover:bg-primary/10 transition-all duration-300 inline-block"
