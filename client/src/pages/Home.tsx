@@ -275,7 +275,7 @@ export default function Home() {
                 </h4>
                 <div className="space-y-4">
                   <motion.a
-                    href="https://www.zomato.com/"
+                    href="https://www.zomato.com/tirunelveli/rehoboth-kitchen-1-tirunelveli-locality/order"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between p-4 bg-background/50 hover:bg-background border border-primary/20 rounded-lg transition-all duration-300"
@@ -289,7 +289,7 @@ export default function Home() {
                     <span className="text-primary font-bold text-xl">→</span>
                   </motion.a>
                   <motion.a
-                    href="https://www.swiggy.com/"
+                    href="https://www.swiggy.com/city/tirunelveli/rehoboth-kitchen-vannarpettai-rest1064327"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between p-4 bg-background/50 hover:bg-background border border-primary/20 rounded-lg transition-all duration-300"
