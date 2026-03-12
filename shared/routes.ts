@@ -22,6 +22,13 @@ export const api = {
         400: errorSchemas.validation,
       },
     },
+    list: {
+      method: 'GET' as const,
+      path: '/api/inquiries' as const,
+      responses: {
+        200: z.array(z.custom<Inquiry>()),
+      },
+    },
   },
 };
 

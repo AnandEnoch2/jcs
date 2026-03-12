@@ -8,7 +8,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
+
   app.post(api.inquiries.create.path, async (req, res) => {
     try {
       const input = api.inquiries.create.input.parse(req.body);
@@ -23,6 +23,11 @@ export async function registerRoutes(
       }
       throw err;
     }
+  });
+
+  app.get(api.inquiries.list.path, async (_req, res) => {
+    const inquiries = await storage.getInquiries();
+    res.status(200).json(inquiries);
   });
 
   return httpServer;

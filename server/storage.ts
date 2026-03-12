@@ -5,6 +5,7 @@ import {
 
 export interface IStorage {
   createInquiry(inquiry: CreateInquiryRequest): Promise<InquiryResponse>;
+  getInquiries(): Promise<InquiryResponse[]>;
 }
 
 export class MemoryStorage implements IStorage {
@@ -19,6 +20,10 @@ export class MemoryStorage implements IStorage {
     };
     this.inquiries.push(created);
     return created;
+  }
+
+  async getInquiries(): Promise<InquiryResponse[]> {
+    return [...this.inquiries].reverse();
   }
 }
 

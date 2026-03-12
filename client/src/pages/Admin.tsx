@@ -6,8 +6,10 @@ import {
   LogOut, Save, Home, Phone, Star, Info, BarChart2,
   Download, Lock, User, Eye, EyeOff, RefreshCw,
   Utensils, Image, Briefcase, TrendingUp, Plus, Trash2, ImagePlus, Film, Layout,
+  MessageSquare, Users,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Cell,
@@ -391,6 +393,337 @@ function DashboardTab() {
   );
 }
 
+function GalleryTab({
+  form,
+  setForm,
+  inputClass,
+  labelClass,
+}: {
+  form: SiteContent;
+  setForm: React.Dispatch<React.SetStateAction<SiteContent>>;
+  inputClass: string;
+  labelClass: string;
+}) {
+  const [newPhotoUrl, setNewPhotoUrl] = useState("");
+  const [newPhotoAlt, setNewPhotoAlt] = useState("");
+  const [newVideoUrl, setNewVideoUrl] = useState("");
+  const [newVideoTitle, setNewVideoTitle] = useState("");
+
+  const addPhoto = () => {
+    if (!newPhotoUrl.trim()) return;
+    const photo: GalleryPhoto = {
+      id: `p${Date.now()}`,
+      url: newPhotoUrl.trim(),
+      alt: newPhotoAlt.trim() || "Gallery Photo",
+    };
+    setForm((prev) => ({
+      ...prev,
+      gallery: { ...prev.gallery, photos: [...prev.gallery.photos, photo] },
+    }));
+    setNewPhotoUrl("");
+    setNewPhotoAlt("");
+  };
+
+  const removePhoto = (id: string) => {
+    setForm((prev) => ({
+      ...prev,
+      gallery: { ...prev.gallery, photos: prev.gallery.photos.filter((p) => p.id !== id) },
+    }));
+  };
+
+  const addVideo = () => {
+    if (!newVideoUrl.trim()) return;
+    const video: GalleryVideo = {
+      id: `v${Date.now()}`,
+      url: newVideoUrl.trim(),
+      title: newVideoTitle.trim() || "Gallery Video",
+    };
+    setForm((prev) => ({
+      ...prev,
+      gallery: { ...prev.gallery, videos: [...prev.gallery.videos, video] },
+    }));
+    setNewVideoUrl("");
+    setNewVideoTitle("");
+  };
+
+  const removeVideo = (id: string) => {
+    setForm((prev) => ({
+      ...prev,
+      gallery: { ...prev.gallery, videos: prev.gallery.videos.filter((v) => v.id !== id) },
+    }));
+  };
+
+  return (
+    <div className="space-y-10">
+      <h2 className="text-2xl font-display font-bold text-white">Gallery Media</h2>
+
+      {/* PHOTOS */}
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <ImagePlus size={20} className="text-primary" />
+          <h3 className="text-lg font-semibold text-white">Photos ({form.gallery.photos.length})</h3>
+        </div>
+
+        {/* Add Photo Form */}
+        <div className="bg-background border border-border rounded-xl p-5 space-y-4">
+          <p className={labelClass}>Add New Photo</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={labelClass}>Image URL</label>
+              <input
+                className={inputClass}
+                value={newPhotoUrl}
+                onChange={(e) => setNewPhotoUrl(e.target.value)}
+                placeholder="https://example.com/photo.jpg"
+                data-testid="input-new-photo-url"
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Alt Text / Caption</label>
+              <input
+                className={inputClass}
+                value={newPhotoAlt}
+                onChange={(e) => setNewPhotoAlt(e.target.value)}
+                placeholder="Wedding Catering Setup"
+                data-testid="input-new-photo-alt"
+              />
+            </div>
+          </div>
+          <button
+            onClick={addPhoto}
+            disabled={!newPhotoUrl.trim()}
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:bg-white hover:text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            data-testid="button-add-photo"
+          >
+            <Plus size={16} /> Add Photo
+          </button>
+        </div>
+
+        {/* Photo Grid */}
+        {form.gallery.photos.length === 0 ? (
+          <div className="bg-background border border-dashed border-border rounded-xl p-8 text-center text-muted-foreground text-sm">
+            No photos yet. Add your first photo above.
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {form.gallery.photos.map((photo) => (
+              <div key={photo.id} className="group relative rounded-xl overflow-hidden border border-border bg-background aspect-square" data-testid={`card-photo-${photo.id}`}>
+                <img
+                  src={photo.url}
+                  alt={photo.alt}
+                  className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                  onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/300?text=Image"; }}
+                />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
+                  <p className="text-white text-xs text-center font-medium line-clamp-2">{photo.alt}</p>
+                  <button
+                    onClick={() => removePhoto(photo.id)}
+                    className="flex items-center gap-1 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs font-bold transition-all"
+                    data-testid={`button-remove-photo-${photo.id}`}
+                  >
+                    <Trash2 size={12} /> Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="border-t border-border/50" />
+
+      {/* VIDEOS */}
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <Film size={20} className="text-primary" />
+          <h3 className="text-lg font-semibold text-white">Videos ({form.gallery.videos.length})</h3>
+        </div>
+
+        {/* Add Video Form */}
+        <div className="bg-background border border-border rounded-xl p-5 space-y-4">
+          <p className={labelClass}>Add New Video</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={labelClass}>Embed URL (YouTube /embed/ link)</label>
+              <input
+                className={inputClass}
+                value={newVideoUrl}
+                onChange={(e) => setNewVideoUrl(e.target.value)}
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                data-testid="input-new-video-url"
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Video Title</label>
+              <input
+                className={inputClass}
+                value={newVideoTitle}
+                onChange={(e) => setNewVideoTitle(e.target.value)}
+                placeholder="Event Highlights"
+                data-testid="input-new-video-title"
+              />
+            </div>
+          </div>
+          <button
+            onClick={addVideo}
+            disabled={!newVideoUrl.trim()}
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:bg-white hover:text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            data-testid="button-add-video"
+          >
+            <Plus size={16} /> Add Video
+          </button>
+        </div>
+
+        {/* Video List */}
+        {form.gallery.videos.length === 0 ? (
+          <div className="bg-background border border-dashed border-border rounded-xl p-8 text-center text-muted-foreground text-sm">
+            No videos yet. Add your first video above.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {form.gallery.videos.map((video) => (
+              <div key={video.id} className="bg-background border border-border rounded-xl overflow-hidden" data-testid={`card-video-${video.id}`}>
+                <div className="aspect-video w-full">
+                  <iframe
+                    src={video.url}
+                    title={video.title}
+                    className="w-full h-full"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="px-4 py-3 flex items-center justify-between gap-3">
+                  <p className="text-sm text-white font-medium truncate">{video.title}</p>
+                  <button
+                    onClick={() => removeVideo(video.id)}
+                    className="flex items-center gap-1 px-3 py-1.5 bg-red-500/10 hover:bg-red-500 border border-red-500/30 hover:border-red-500 text-red-400 hover:text-white rounded-lg text-xs font-bold transition-all shrink-0"
+                    data-testid={`button-remove-video-${video.id}`}
+                  >
+                    <Trash2 size={12} /> Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-card/50 border border-primary/20 rounded-xl p-4 flex items-center gap-3">
+        <Save size={16} className="text-primary shrink-0" />
+        <p className="text-sm text-muted-foreground">Remember to click <span className="text-primary font-semibold">Save Changes</span> at the top to save your gallery updates.</p>
+      </div>
+    </div>
+  );
+}
+
+interface InquiryData {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  eventType: string;
+  guests: number;
+  message: string;
+  createdAt: string;
+}
+
+function InquiriesTab() {
+  const { data: inquiries = [], isLoading, refetch } = useQuery<InquiryData[]>({
+    queryKey: ["/api/inquiries"],
+    refetchInterval: 30000,
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-display font-bold text-white">Visitor Inquiries</h2>
+          <p className="text-muted-foreground text-sm mt-1">All inquiry submissions from the contact page</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="bg-primary/10 border border-primary/30 text-primary text-sm font-bold px-3 py-1 rounded-full">
+            {inquiries.length} total
+          </span>
+          <button
+            onClick={() => refetch()}
+            className="p-2 hover:text-primary transition-colors text-muted-foreground border border-border rounded-lg hover:border-primary"
+            title="Refresh"
+            data-testid="button-refresh-inquiries"
+          >
+            <RefreshCw size={14} />
+          </button>
+        </div>
+      </div>
+
+      {isLoading ? (
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-background border border-border rounded-xl p-5 animate-pulse">
+              <div className="h-4 bg-border rounded w-1/3 mb-3" />
+              <div className="h-3 bg-border rounded w-1/2" />
+            </div>
+          ))}
+        </div>
+      ) : inquiries.length === 0 ? (
+        <div className="bg-background border border-border rounded-xl p-12 text-center">
+          <MessageSquare size={48} className="mx-auto text-muted-foreground opacity-30 mb-4" />
+          <p className="text-muted-foreground">No inquiries yet.</p>
+          <p className="text-xs text-muted-foreground mt-1 opacity-60">Submissions from the contact page will appear here.</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {inquiries.map((inq) => (
+            <motion.div
+              key={inq.id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-background border border-border rounded-xl p-5 hover:border-primary/40 transition-all"
+              data-testid={`card-inquiry-${inq.id}`}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center shrink-0">
+                    <Users size={18} className="text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-white text-base" data-testid={`text-inquiry-name-${inq.id}`}>{inq.name}</p>
+                    <p className="text-xs text-muted-foreground">{inq.email}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-lg px-3 py-2">
+                  <Phone size={16} className="text-green-400 shrink-0" />
+                  <span className="text-green-300 font-bold text-base tracking-wide" data-testid={`text-inquiry-phone-${inq.id}`}>{inq.phone}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                <div className="bg-card rounded-lg px-3 py-2">
+                  <p className="text-xs text-primary uppercase tracking-wider mb-0.5">Event Type</p>
+                  <p className="text-sm text-white font-medium">{inq.eventType}</p>
+                </div>
+                <div className="bg-card rounded-lg px-3 py-2">
+                  <p className="text-xs text-primary uppercase tracking-wider mb-0.5">Guests</p>
+                  <p className="text-sm text-white font-medium">{inq.guests}</p>
+                </div>
+                <div className="bg-card rounded-lg px-3 py-2">
+                  <p className="text-xs text-primary uppercase tracking-wider mb-0.5">Submitted</p>
+                  <p className="text-sm text-white font-medium">
+                    {new Date(inq.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-card rounded-lg px-4 py-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Message</p>
+                <p className="text-sm text-gray-300 leading-relaxed">{inq.message}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Admin() {
   const { isAdmin, logout, content, updateContent } = useAdmin();
   const [, navigate] = useLocation();
@@ -431,6 +764,7 @@ export default function Admin() {
 
   const tabs = [
     { id: "dashboard", label: "Dashboard", icon: BarChart2 },
+    { id: "inquiries", label: "Inquiries", icon: MessageSquare },
     { id: "hero", label: "Home", icon: Home },
     { id: "about", label: "About", icon: Info },
     { id: "whyUs", label: "Why Choose Us", icon: Star },
@@ -456,7 +790,7 @@ export default function Admin() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          {activeTab !== "dashboard" && (
+          {activeTab !== "dashboard" && activeTab !== "inquiries" && (
             <motion.button
               onClick={handleSave}
               whileHover={{ scale: 1.03 }}
@@ -517,6 +851,9 @@ export default function Admin() {
           >
             {/* DASHBOARD */}
             {activeTab === "dashboard" && <DashboardTab />}
+
+            {/* INQUIRIES */}
+            {activeTab === "inquiries" && <InquiriesTab />}
 
             {/* HOME HERO */}
             {activeTab === "hero" && (
@@ -642,16 +979,12 @@ export default function Admin() {
 
             {/* GALLERY PAGE */}
             {activeTab === "gallery" && (
-              <div className="max-w-2xl space-y-6">
-                <h2 className="text-2xl font-display font-bold text-white mb-2">Gallery Page</h2>
-                <p className="text-muted-foreground text-sm mb-6">
-                  The gallery page showcases food and event images. Images are currently sourced from Unsplash.
-                </p>
-                <div className="bg-background border border-border rounded-lg p-4 space-y-2">
-                  <p className="text-xs text-primary font-bold uppercase tracking-wider">Current Gallery</p>
-                  <p className="text-sm text-muted-foreground">The gallery displays images for North Indian, South Indian, Chinese dishes, and catering events.</p>
-                </div>
-              </div>
+              <GalleryTab
+                form={form}
+                setForm={setForm}
+                inputClass={inputClass}
+                labelClass={labelClass}
+              />
             )}
 
             {/* CONTACT */}
