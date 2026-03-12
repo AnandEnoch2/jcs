@@ -4,10 +4,11 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedFood } from "@/components/AnimatedFood";
-const cateringDetails1 = "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80";
-const cateringDetails2 = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80";
+import { useAdmin } from "@/context/AdminContext";
 
 export default function About() {
+  const { content } = useAdmin();
+  const { aboutBg, aboutStory1, aboutStory2 } = content.pageImages;
   const cuisines = [
     { 
       title: "North Indian", 
@@ -34,7 +35,7 @@ export default function About() {
       <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1920&q=80" 
+            src={aboutBg} 
             alt="About Background" 
             className="w-full h-full object-cover opacity-20"
           />
@@ -102,12 +103,12 @@ export default function About() {
               
               <div className="space-y-4 translate-y-8">
                 <div className="rounded-2xl overflow-hidden border border-border shadow-2xl">
-                  <img src={cateringDetails1} alt="Catering Details 1" className="w-full h-auto hover:scale-105 transition-transform duration-500" />
+                  <img src={aboutStory1} alt="Catering Details 1" className="w-full h-auto hover:scale-105 transition-transform duration-500" />
                 </div>
               </div>
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden border border-border shadow-2xl">
-                  <img src={cateringDetails2} alt="Catering Details 2" className="w-full h-auto hover:scale-105 transition-transform duration-500" />
+                  <img src={aboutStory2} alt="Catering Details 2" className="w-full h-auto hover:scale-105 transition-transform duration-500" />
                 </div>
               </div>
             </motion.div>

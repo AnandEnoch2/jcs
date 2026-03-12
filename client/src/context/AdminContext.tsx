@@ -1,5 +1,28 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
+export interface GalleryPhoto {
+  id: string;
+  url: string;
+  alt: string;
+}
+
+export interface GalleryVideo {
+  id: string;
+  url: string;
+  title: string;
+}
+
+export interface PageImages {
+  homeBg: string[];
+  aboutBg: string;
+  servicesBg: string;
+  galleryBg: string;
+  contactBg: string;
+  menuBg: string;
+  aboutStory1: string;
+  aboutStory2: string;
+}
+
 export interface SiteContent {
   hero: {
     tagline: string;
@@ -31,6 +54,11 @@ export interface SiteContent {
     tagline: string;
     copyright: string;
   };
+  gallery: {
+    photos: GalleryPhoto[];
+    videos: GalleryVideo[];
+  };
+  pageImages: PageImages;
 }
 
 export interface Visit {
@@ -82,6 +110,37 @@ const defaultContent: SiteContent = {
     tagline: "Serving with Love, Blessed by Grace.",
     copyright: "Jesus Catering Service. All rights reserved.",
   },
+  gallery: {
+    photos: [
+      { id: "p1", url: "https://images.unsplash.com/photo-1555244162-803834f70033?w=600&q=80", alt: "Wedding Catering Setup" },
+      { id: "p2", url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80", alt: "Delicious Plating" },
+      { id: "p3", url: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80", alt: "North Indian" },
+      { id: "p4", url: "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?w=600&q=80", alt: "South Indian" },
+      { id: "p5", url: "https://images.unsplash.com/photo-1552611052-33e04de081de?w=600&q=80", alt: "Chinese" },
+      { id: "p6", url: "https://images.unsplash.com/photo-1504674900769-adf95eef0d5a?w=600&q=80", alt: "Food Prep" },
+      { id: "p7", url: "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80", alt: "Events" },
+      { id: "p8", url: "https://images.unsplash.com/photo-1555939594-58d7cb561341?w=600&q=80", alt: "Service" },
+    ],
+    videos: [
+      { id: "v1", url: "https://www.youtube.com/embed/dQw4w9WgXcQ", title: "Event Highlights" },
+      { id: "v2", url: "https://www.youtube.com/embed/dQw4w9WgXcQ", title: "Food Preparation" },
+    ],
+  },
+  pageImages: {
+    homeBg: [
+      "https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&q=80",
+      "https://media-cdn.tripadvisor.com/media/photo-s/12/59/d7/fc/panner-at-kalyan-rooftop.jpg",
+      "https://media-cdn.tripadvisor.com/media/photo-s/18/93/8a/58/north-indian-chinese.jpg",
+      "https://ik.imagekit.io/munchery/blog/tr:w-768/from-punjab-to-tamil-nadu-a-tour-of-ten-indian-thalis.jpeg",
+    ],
+    aboutBg: "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1920&q=80",
+    servicesBg: "https://images.unsplash.com/photo-1555939594-58d7cb561341?w=1920&q=80",
+    galleryBg: "https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&q=80",
+    contactBg: "https://images.unsplash.com/photo-1504674900769-adf95eef0d5a?w=1920&q=80",
+    menuBg: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80",
+    aboutStory1: "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80",
+    aboutStory2: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
+  },
 };
 
 interface AdminContextType {
@@ -101,7 +160,16 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<SiteContent>(() => {
     try {
       const saved = localStorage.getItem("jcs_site_content");
-      return saved ? { ...defaultContent, ...JSON.parse(saved) } : defaultContent;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          ...defaultContent,
+          ...parsed,
+          gallery: { ...defaultContent.gallery, ...(parsed.gallery || {}) },
+          pageImages: { ...defaultContent.pageImages, ...(parsed.pageImages || {}) },
+        };
+      }
+      return defaultContent;
     } catch {
       return defaultContent;
     }

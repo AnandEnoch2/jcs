@@ -4,8 +4,11 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedFood } from "@/components/AnimatedFood";
+import { useAdmin } from "@/context/AdminContext";
 
 export default function Services() {
+  const { content } = useAdmin();
+  const { servicesBg } = content.pageImages;
   const services = [
     { title: "Wedding Catering", icon: HeartHandshake, desc: "Elegant feasts to make your special day unforgettable." },
     { title: "Corporate Catering", icon: Users, desc: "Professional dining solutions for meetings and corporate events." },
@@ -23,7 +26,7 @@ export default function Services() {
       <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1555939594-58d7cb561341?w=1920&q=80" 
+            src={servicesBg} 
             alt="Services Background" 
             className="w-full h-full object-cover opacity-20"
           />

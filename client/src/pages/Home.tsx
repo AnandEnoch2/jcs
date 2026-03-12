@@ -26,8 +26,6 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedFood } from "@/components/AnimatedFood";
 import { useCreateInquiry } from "@/hooks/use-inquiries";
 import { useAdmin } from "@/context/AdminContext";
-const cateringDetails1 = "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80";
-const cateringDetails2 = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -40,13 +38,6 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const backgroundImages = [
-  "https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&q=80",
-  "https://media-cdn.tripadvisor.com/media/photo-s/12/59/d7/fc/panner-at-kalyan-rooftop.jpg",
-  "https://media-cdn.tripadvisor.com/media/photo-s/18/93/8a/58/north-indian-chinese.jpg",
-  "https://ik.imagekit.io/munchery/blog/tr:w-768/from-punjab-to-tamil-nadu-a-tour-of-ten-indian-thalis.jpeg",
-];
-
 const WHATSAPP_NUMBERS = [
   { label: "6380322818", number: "916380322818" },
   { label: "9790728715", number: "919790728715" },
@@ -58,6 +49,9 @@ export default function Home() {
   const [pendingWhatsAppMsg, setPendingWhatsAppMsg] = useState("");
   const { mutate: createInquiry, isPending } = useCreateInquiry();
   const { content } = useAdmin();
+  const backgroundImages = content.pageImages.homeBg;
+  const cateringDetails1 = content.pageImages.aboutStory1;
+  const cateringDetails2 = content.pageImages.aboutStory2;
 
   const {
     register,

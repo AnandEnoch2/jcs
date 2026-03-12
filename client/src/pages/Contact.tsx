@@ -9,6 +9,7 @@ import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedFood } from "@/components/AnimatedFood";
 import { useCreateInquiry } from "@/hooks/use-inquiries";
+import { useAdmin } from "@/context/AdminContext";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -33,6 +34,8 @@ const WhatsAppIcon = () => (
 );
 
 export default function Contact() {
+  const { content } = useAdmin();
+  const { contactBg } = content.pageImages;
   const [showWhatsAppPicker, setShowWhatsAppPicker] = useState(false);
   const [pendingWhatsAppMsg, setPendingWhatsAppMsg] = useState("");
   const { mutate: createInquiry, isPending } = useCreateInquiry();
@@ -68,7 +71,7 @@ export default function Contact() {
       <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1504674900769-adf95eef0d5a?w=1920&q=80" 
+            src={contactBg} 
             alt="Contact Background" 
             className="w-full h-full object-cover opacity-20"
           />

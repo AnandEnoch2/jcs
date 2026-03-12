@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
-import { useAdmin, SiteContent, Visit } from "@/context/AdminContext";
+import { useAdmin, SiteContent, Visit, GalleryPhoto, GalleryVideo } from "@/context/AdminContext";
 import {
   LogOut, Save, Home, Phone, Star, Info, BarChart2,
   Download, Lock, User, Eye, EyeOff, RefreshCw,
-  Utensils, Image, Briefcase, TrendingUp,
+  Utensils, Image, Briefcase, TrendingUp, Plus, Trash2, ImagePlus, Film, Layout,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -436,7 +436,8 @@ export default function Admin() {
     { id: "whyUs", label: "Why Choose Us", icon: Star },
     { id: "menu", label: "Menu Page", icon: Utensils },
     { id: "services", label: "Services", icon: Briefcase },
-    { id: "gallery", label: "Gallery", icon: Image },
+    { id: "gallery", label: "Gallery Media", icon: Image },
+    { id: "pageImages", label: "Page Images", icon: Layout },
     { id: "contact", label: "Contact", icon: Phone },
     { id: "footer", label: "Footer", icon: Home },
   ];

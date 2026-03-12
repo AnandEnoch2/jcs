@@ -4,35 +4,24 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedFood } from "@/components/AnimatedFood";
-import { Play, Image as ImageIcon } from "lucide-react";
+import { Play, Image as ImageIcon, X } from "lucide-react";
+import { useAdmin } from "@/context/AdminContext";
 
 export default function Gallery() {
   const [activeTab, setActiveTab] = useState<"photos" | "videos">("photos");
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const { content } = useAdmin();
 
-  const photos = [
-    { id: 1, url: "https://images.unsplash.com/photo-1555244162-803834f70033?w=600&q=80", alt: "Wedding Catering Setup" },
-    { id: 2, url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80", alt: "Delicious Plating" },
-    { id: 3, url: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80", alt: "North Indian" },
-    { id: 4, url: "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?w=600&q=80", alt: "South Indian" },
-    { id: 5, url: "https://images.unsplash.com/photo-1552611052-33e04de081de?w=600&q=80", alt: "Chinese" },
-    { id: 6, url: "https://images.unsplash.com/photo-1504674900769-adf95eef0d5a?w=600&q=80", alt: "Prep" },
-    { id: 7, url: "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80", alt: "Events" },
-    { id: 8, url: "https://images.unsplash.com/photo-1555939594-58d7cb561341?w=600&q=80", alt: "Service" },
-  ];
-
-  const videos = [
-    { id: 1, url: "https://www.youtube.com/embed/dQw4w9WgXcQ", title: "Highlights" },
-    { id: 2, url: "https://www.youtube.com/embed/dQw4w9WgXcQ", title: "Preparation" },
-    { id: 3, url: "https://www.youtube.com/embed/dQw4w9WgXcQ", title: "Wedding" },
-    { id: 4, url: "https://www.youtube.com/embed/dQw4w9WgXcQ", title: "Testimonials" },
-  ];
+  const { photos, videos } = content.gallery;
+  const { galleryBg } = content.pageImages;
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary selection:text-black">
       <Navbar />
+
       <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 z-0">
-          <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&q=80" alt="Gallery" className="w-full h-full object-cover opacity-20" />
+          <img src={galleryBg} alt="Gallery" className="w-full h-full object-cover opacity-20" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background"></div>
           <AnimatedFood emoji="📸" delay={0} x={95} y={160} />
           <AnimatedFood emoji="🎥" delay={1.3} x={-105} y={140} />
@@ -59,11 +48,19 @@ export default function Gallery() {
 
           {activeTab === "photos" && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {photos.length === 0 && (
+                <p className="col-span-4 text-center text-muted-foreground py-12">No photos yet. Add some from the admin panel.</p>
+              )}
               {photos.map((photo) => (
-                <motion.div key={photo.id} className="group relative overflow-hidden rounded-xl aspect-square cursor-pointer">
+                <motion.div
+                  key={photo.id}
+                  className="group relative overflow-hidden rounded-xl aspect-square cursor-pointer"
+                  onClick={() => setLightboxUrl(photo.url)}
+                  whileHover={{ scale: 1.02 }}
+                >
                   <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <p className="text-white text-center font-bold">{photo.alt}</p>
+                    <p className="text-white text-center font-bold px-2">{photo.alt}</p>
                   </div>
                 </motion.div>
               ))}
@@ -72,15 +69,42 @@ export default function Gallery() {
 
           {activeTab === "videos" && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {videos.length === 0 && (
+                <p className="col-span-2 text-center text-muted-foreground py-12">No videos yet. Add some from the admin panel.</p>
+              )}
               {videos.map((video) => (
-                <motion.div key={video.id} className="relative rounded-xl overflow-hidden aspect-video bg-background border border-border">
-                  <iframe width="100%" height="100%" src={video.url} title={video.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+                <motion.div key={video.id} className="relative rounded-xl overflow-hidden bg-background border border-border">
+                  <p className="text-sm font-semibold text-primary px-4 pt-3 pb-1">{video.title}</p>
+                  <div className="aspect-video">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={video.url}
+                      title={video.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full"
+                    />
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
           )}
         </div>
       </section>
+
+      {/* Lightbox */}
+      {lightboxUrl && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightboxUrl(null)}
+        >
+          <button className="absolute top-4 right-4 text-white hover:text-primary" onClick={() => setLightboxUrl(null)}>
+            <X size={28} />
+          </button>
+          <img src={lightboxUrl} alt="Preview" className="max-w-full max-h-full rounded-xl object-contain" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
 
       <Footer />
     </div>
