@@ -281,7 +281,7 @@ export default function Menu() {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center flex-wrap">
               <a
-                href="https://www.zomato.com/"
+                href="https://www.zomato.com/tirunelveli/rehoboth-kitchen-1-tirunelveli-locality/order"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(220,38,38,0.4)]"
@@ -292,7 +292,7 @@ export default function Menu() {
               </a>
               
               <a
-                href="https://www.swiggy.com/"
+                href="https://www.swiggy.com/city/tirunelveli/rehoboth-kitchen-vannarpettai-rest1064327"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(234,88,12,0.4)]"
