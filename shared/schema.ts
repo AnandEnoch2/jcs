@@ -5,7 +5,7 @@ export const insertInquirySchema = z.object({
   email: z.string().email("Valid email is required"),
   phone: z.string().min(1, "Phone is required"),
   eventType: z.string().min(1, "Event type is required"),
-  guests: z.number().int().min(1, "Guests must be at least 1"),
+  guests: z.coerce.number().int().min(1, "Guests must be at least 1"),
   message: z.string().min(1, "Message is required"),
 });
 

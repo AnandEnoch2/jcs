@@ -16,7 +16,7 @@ const formSchema = z.object({
   email: z.string().email("Valid email is required"),
   phone: z.string().min(10, "Valid phone number is required"),
   eventType: z.string().min(1, "Event type is required"),
-  guests: z.coerce.number().min(1, "Must have at least 1 guest"),
+  guests: z.coerce.number().int("Must be a whole number").min(1, "Must have at least 1 guest"),
   message: z.string().min(10, "Please provide some details"),
 });
 
@@ -231,7 +231,7 @@ export default function Contact() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">Number of Guests</label>
                     <input 
-                      {...register("guests")}
+                      {...register("guests", { valueAsNumber: true })}
                       type="number"
                       min="1"
                       className={`w-full bg-input border ${errors.guests ? 'border-destructive' : 'border-border'} rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}

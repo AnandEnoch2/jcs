@@ -17,13 +17,11 @@ export function useCreateInquiry() {
       if (!res.ok) {
         if (res.status === 400) {
           const errorData = await res.json();
-          // Attempt to parse standard validation error
-          try {
-            const parsedError = api.inquiries.create.responses[400].parse(errorData) as ValidationError;
-            throw new Error(parsedError.message);
-          } catch {
-            throw new Error("Invalid form data submitted.");
+          const parsedError = api.inquiries.create.responses[400].safeParse(errorData);
+          if (parsedError.success) {
+            throw new Error((parsedError.data as ValidationError).message);
           }
+          throw new Error("Invalid form data submitted.");
         }
         throw new Error("Failed to submit inquiry. Please try again later.");
       }
