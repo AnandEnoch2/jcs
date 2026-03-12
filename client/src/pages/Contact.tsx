@@ -38,7 +38,8 @@ export default function Contact() {
   const { contactBg } = content.pageImages;
   const [showWhatsAppPicker, setShowWhatsAppPicker] = useState(false);
   const [pendingWhatsAppMsg, setPendingWhatsAppMsg] = useState("");
-  const { mutate: createInquiry, isPending } = useCreateInquiry();
+  const { mutate: createInquiry } = useCreateInquiry();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -48,14 +49,13 @@ export default function Contact() {
   });
 
   const onSubmit = (data: FormData) => {
-    createInquiry(data, {
-      onSuccess: () => {
-        reset();
-        const message = `*New Catering Inquiry*\n\n📝 Name: ${data.name}\n📧 Email: ${data.email}\n📱 Phone: ${data.phone}\n🎉 Event Type: ${data.eventType}\n👥 Number of Guests: ${data.guests}\n💬 Details: ${data.message}`;
-        setPendingWhatsAppMsg(encodeURIComponent(message));
-        setShowWhatsAppPicker(true);
-      }
-    });
+    setIsSubmitting(true);
+    const message = `*New Catering Inquiry*\n\n📝 Name: ${data.name}\n📧 Email: ${data.email}\n📱 Phone: ${data.phone}\n🎉 Event Type: ${data.eventType}\n👥 Number of Guests: ${data.guests}\n💬 Details: ${data.message}`;
+    setPendingWhatsAppMsg(encodeURIComponent(message));
+    reset();
+    setShowWhatsAppPicker(true);
+    setIsSubmitting(false);
+    createInquiry(data);
   };
 
   const sendToWhatsApp = (number: string) => {
@@ -272,11 +272,11 @@ export default function Contact() {
 
                 <button 
                   type="submit" 
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="w-full py-4 bg-primary text-primary-foreground font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2 mt-4"
                   data-testid="button-submit-inquiry"
                 >
-                  {isPending ? (
+                  {isSubmitting ? (
                     <span className="flex items-center gap-2">
                       <Clock className="animate-spin" size={18} /> Processing...
                     </span>
