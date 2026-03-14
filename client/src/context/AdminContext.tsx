@@ -81,7 +81,7 @@ const defaultContent: SiteContent = {
   about: {
     title: "Our Story",
     description1:
-      "Led by Proprietor T. Navaneetha Ramakrishnan, Jesus Catering Service has established itself as a beacon of culinary excellence in Palayamkottai and beyond.",
+      "Jesus Catering Service has established itself as a beacon of culinary excellence in Palayamkottai and beyond.",
     description2:
       "We believe that every event is a sacred gathering, and the food served should reflect the joy and blessing of the occasion. From intimate family gatherings to grand weddings, our team is dedicated to providing an impeccable dining experience.",
     proprietor: "T. Navaneetha Ramakrishnan",
