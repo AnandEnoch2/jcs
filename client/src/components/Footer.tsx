@@ -1,4 +1,5 @@
 import cateringLogo from "@assets/WhatsApp_Image_2026-03-10_at_1,42,08_PM-photoaidcom-cropped_1773214984482.jpeg";
+import { Phone } from "lucide-react";
 
 export function Footer() {
   const handleWhatsAppClick = () => {
@@ -34,7 +35,7 @@ export function Footer() {
               title="Call us at 8903203413"
               data-testid="button-call-footer"
             >
-              <span className="text-lg">📞</span>
+              <Phone size={20} className="text-white" />
             </button>
             <button
               onClick={handleWhatsAppClick}
