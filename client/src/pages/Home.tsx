@@ -246,11 +246,10 @@ export default function Home() {
               className="space-y-6 text-muted-foreground leading-relaxed text-lg"
             >
               <p>
-                Led by Proprietor{" "}
                 <strong className="text-foreground gold-gradient-text">
                   {content.about.proprietor}
                 </strong>
-                , {content.about.description1}
+                {" "}{content.about.description1}
               </p>
               <p>
                 {content.about.description2}
