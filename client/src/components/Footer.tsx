@@ -5,6 +5,10 @@ export function Footer() {
     window.open("https://wa.me/916380322818", "_blank");
   };
 
+  const handleCallClick = () => {
+    window.location.href = "tel:8903203413";
+  };
+
   return (
     <footer className="bg-black border-t border-border/50 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,6 +28,14 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-4">
+            <button
+              onClick={handleCallClick}
+              className="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition-colors duration-300"
+              title="Call us at 8903203413"
+              data-testid="button-call-footer"
+            >
+              <span className="text-lg">📞</span>
+            </button>
             <button
               onClick={handleWhatsAppClick}
               className="w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 flex items-center justify-center transition-colors duration-300"
