@@ -162,6 +162,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       const saved = localStorage.getItem("jcs_site_content");
       if (saved) {
         const parsed = JSON.parse(saved);
+        if (parsed.about?.description1?.startsWith("Led by Proprietor")) {
+          parsed.about.description1 = defaultContent.about.description1;
+        }
         return {
           ...defaultContent,
           ...parsed,
