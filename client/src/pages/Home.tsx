@@ -43,8 +43,32 @@ const WHATSAPP_NUMBERS = [
   { label: "9790728715", number: "919790728715" },
 ];
 
+const BRAND_QUOTES = [
+  {
+    quote: "Where every meal is a blessing and every event becomes a cherished memory.",
+    brand: "Jesus Catering Service",
+  },
+  {
+    quote: "Serving with love, grace, and the finest flavors — because your celebration deserves nothing less.",
+    brand: "Jesus Catering Service",
+  },
+  {
+    quote: "From intimate gatherings to grand weddings, we bring culinary excellence to every table.",
+    brand: "Jesus Catering Service",
+  },
+  {
+    quote: "Food is our language of love. Let us speak it at your special occasion.",
+    brand: "Jesus Catering Service",
+  },
+  {
+    quote: "Trusted by families across Palayamkottai — crafting moments that linger long after the last bite.",
+    brand: "Jesus Catering Service",
+  },
+];
+
 export default function Home() {
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [showWhatsAppPicker, setShowWhatsAppPicker] = useState(false);
   const [pendingWhatsAppMsg, setPendingWhatsAppMsg] = useState("");
   const { mutate: createInquiry, isPending } = useCreateInquiry();
@@ -69,6 +93,13 @@ export default function Home() {
     const interval = setInterval(() => {
       setCurrentBgIndex((prev) => (prev + 1) % backgroundImages.length);
     }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentQuoteIndex((prev) => (prev + 1) % BRAND_QUOTES.length);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
@@ -463,6 +494,43 @@ export default function Home() {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* QUOTES SLIDER SECTION */}
+      <section className="py-20 relative overflow-hidden bg-black border-t border-border/30">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-60"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <p className="text-primary text-sm uppercase tracking-widest font-semibold mb-8">Our Promise</p>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentQuoteIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
+              <p className="text-2xl md:text-3xl lg:text-4xl font-display text-white leading-relaxed italic">
+                &ldquo;{BRAND_QUOTES[currentQuoteIndex].quote}&rdquo;
+              </p>
+              <p className="gold-gradient-text font-bold text-lg tracking-widest uppercase">
+                — {BRAND_QUOTES[currentQuoteIndex].brand}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+          <div className="flex justify-center gap-2 mt-10">
+            {BRAND_QUOTES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentQuoteIndex(i)}
+                data-testid={`button-quote-dot-${i}`}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  i === currentQuoteIndex ? "bg-primary w-6" : "bg-white/30"
+                }`}
+              />
+            ))}
           </div>
         </div>
       </section>
